@@ -2,17 +2,22 @@
 //  ViewController.swift
 //  BundleInformationSample
 //
-//  Created by 大國 嗣元 on 2016/03/23.
+//  Created by hideyukitone on 2016/03/23.
 //  Copyright © 2016年 hideyuki. All rights reserved.
 //
 
 import UIKit
+import BundleInformation
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var lblDisplay: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        lblDisplay.text = "\(BundleInformation.appDisplayName)\n\(BundleInformation.version)(\(BundleInformation.build))"
     }
 
     override func didReceiveMemoryWarning() {

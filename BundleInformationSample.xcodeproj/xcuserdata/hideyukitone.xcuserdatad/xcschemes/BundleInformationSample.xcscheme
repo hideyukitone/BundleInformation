@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "874D9BE61CA1B68A009D2E04"
+               BuildableName = "BundleInformationSample.app"
+               BlueprintName = "BundleInformationSample"
+               ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -12,7 +28,46 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "874D9BFA1CA1B68A009D2E04"
+               BuildableName = "BundleInformationSampleTests.xctest"
+               BlueprintName = "BundleInformationSampleTests"
+               ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "874D9C051CA1B68A009D2E04"
+               BuildableName = "BundleInformationSampleUITests.xctest"
+               BlueprintName = "BundleInformationSampleUITests"
+               ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "874D9C251CA1B6A3009D2E04"
+               BuildableName = "BundleInformationTests.xctest"
+               BlueprintName = "BundleInformationTests"
+               ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "874D9BE61CA1B68A009D2E04"
+            BuildableName = "BundleInformationSample.app"
+            BlueprintName = "BundleInformationSample"
+            ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +81,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "874D9BE61CA1B68A009D2E04"
+            BuildableName = "BundleInformationSample.app"
+            BlueprintName = "BundleInformationSample"
+            ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +100,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "874D9BE61CA1B68A009D2E04"
+            BuildableName = "BundleInformationSample.app"
+            BlueprintName = "BundleInformationSample"
+            ReferencedContainer = "container:BundleInformationSample.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

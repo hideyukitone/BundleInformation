@@ -2,7 +2,7 @@
 //  BundleInformationSampleUITests.swift
 //  BundleInformationSampleUITests
 //
-//  Created by 大國 嗣元 on 2016/03/23.
+//  Created by hideyukitone on 2016/03/23.
 //  Copyright © 2016年 hideyuki. All rights reserved.
 //
 

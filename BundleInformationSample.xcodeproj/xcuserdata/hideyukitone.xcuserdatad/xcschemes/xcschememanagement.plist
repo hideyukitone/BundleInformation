@@ -4,10 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BundleInformation.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>BundleInformationSample.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>BundleInformationUniversal.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -23,6 +33,21 @@
 			<true/>
 		</dict>
 		<key>874D9C051CA1B68A009D2E04</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>874D9C1C1CA1B6A3009D2E04</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>874D9C251CA1B6A3009D2E04</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>874D9C3D1CA1C568009D2E04</key>
 		<dict>
 			<key>primary</key>
 			<true/>

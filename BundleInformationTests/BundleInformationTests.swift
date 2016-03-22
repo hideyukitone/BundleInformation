@@ -1,15 +1,15 @@
 //
-//  BundleInformationSampleTests.swift
-//  BundleInformationSampleTests
+//  BundleInformationTests.swift
+//  BundleInformationTests
 //
 //  Created by hideyukitone on 2016/03/23.
 //  Copyright © 2016年 hideyuki. All rights reserved.
 //
 
 import XCTest
-@testable import BundleInformationSample
+@testable import BundleInformation
 
-class BundleInformationSampleTests: XCTestCase {
+class BundleInformationTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
