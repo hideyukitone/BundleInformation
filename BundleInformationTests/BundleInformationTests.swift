@@ -21,16 +21,154 @@ class BundleInformationTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testBundleDisplayNameSome() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return "BundleDisplayName"
+                default:                    return "default"
+                }
+            }
         }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.appDisplayName, "BundleDisplayName")
     }
     
+    func testBundleDisplayNameNil() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return "BundleName"
+                default:                    return "default"
+                }
+            }
+        }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.appDisplayName, "BundleName")
+    }
+    
+    func testMirrorSubjectTypeString1() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return nil
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "" }
+        }
+        
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        
+        XCTAssertEqual(BundleInformation.appDisplayName, "")
+    }
+    
+    func testMirrorSubjectTypeString2() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return nil
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "XXX" }
+        }
+        
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        
+        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+    }
+    
+    func testMirrorSubjectTypeString3() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return nil
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "XXX.YYY" }
+        }
+        
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        
+        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+    }
+    
+    func testMirrorSubjectTypeString4() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return nil
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "XXX.YYY.ZZZ" }
+        }
+        
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        
+        XCTAssertEqual(BundleInformation.appDisplayName, "XXX.YYY")
+    }
+    
+    func testVersionNil() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleShortVersionString": return nil
+                default:                           return "default"
+                }
+            }
+        }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.version, "")
+    }
+    
+    func testVersionSome() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleShortVersionString": return "1.2"
+                default:                           return "default"
+                }
+            }
+        }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.version, "1.2")
+    }
+    
+    func testBuildNil() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleVersion": return nil
+                default:                return "default"
+                }
+            }
+        }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.build, "")
+    }
+    
+    func testBuildSome() {
+        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
+            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+                switch key {
+                case "CFBundleVersion": return "2.3"
+                default:                return "default"
+                }
+            }
+        }
+        BundleInformation.infoDictionaryManager = ObjectManager()
+        XCTAssertEqual(BundleInformation.build, "2.3")
+    }
 }
