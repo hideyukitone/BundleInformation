@@ -24,7 +24,7 @@ internal protocol MirrorSubjectTypeGettable {
 public class BundleInformation: MirrorSubjectTypeGettable {
     
     // for manual mocking
-    internal static var infoDictionaryManager: ObjectForInfoDictionaryKeyGettable = NSBundle()
+    internal static var infoDictionaryManager: ObjectForInfoDictionaryKeyGettable = NSBundle.mainBundle()
     
     // for manual mocking
     internal static var mirrorManager: MirrorSubjectTypeGettable = BundleInformation()
@@ -35,37 +35,12 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      */
     public static var appDisplayName: String {
         if let name = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleDisplayName") as? String {
-            return name
+            return name == "" ? getProductName() : name
         }else if let name = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleName") as? String {
-            return name
+            return name == "" ? getProductName() : name
         }else {
-            let sepa = "."
-            var array = mirrorManager.mirrorSubjectType.componentsSeparatedByString(sepa)
-            
-            if array.count >= 2 {
-                //プロジェクト名に.が入っている時を考慮
-                
-                array.removeAtIndex(array.count - 1)
-                
-                var rtn = ""
-                for str in array {
-                    if rtn == "" {
-                        rtn = str
-                    }else {
-                        rtn += sepa + str
-                    }
-                }
-                
-                return rtn
-            }else {
-                return array.first ?? ""
-            }
+            return getProductName()
         }
-    }
-    
-    // for manual mocking
-    internal var mirrorSubjectType: String {
-        return String(Mirror(reflecting: self).subjectType)
     }
     
     /**
@@ -91,4 +66,34 @@ public class BundleInformation: MirrorSubjectTypeGettable {
         
         return bui
     }
+    
+    private static func getProductName() -> String {
+        let sepa = "."
+        var array = mirrorManager.mirrorSubjectType.componentsSeparatedByString(sepa)
+        
+        if array.count >= 2 {
+            //プロジェクト名に.が入っている時を考慮
+            
+            array.removeAtIndex(array.count - 1)
+            
+            var rtn = ""
+            for str in array {
+                if rtn == "" {
+                    rtn = str
+                }else {
+                    rtn += sepa + str
+                }
+            }
+            
+            return rtn
+        }else {
+            return array.first ?? ""
+        }
+    }
+    
+    // for manual mocking
+    internal var mirrorSubjectType: String {
+        return String(Mirror(reflecting: self).subjectType)
+    }
+    
 }
