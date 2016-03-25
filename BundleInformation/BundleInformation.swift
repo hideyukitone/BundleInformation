@@ -38,12 +38,15 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var appDisplayName: String {
-        if let name = infoDictionaryManager["CFBundleDisplayName"] {
-            return name == "" ? getProductName() : name
-        }else if let name = infoDictionaryManager["CFBundleName"] {
-            return name == "" ? getProductName() : name
-        }else {
-            return getProductName()
+        let display = infoDictionaryManager["CFBundleDisplayName"]
+        let bundle  = infoDictionaryManager["CFBundleName"]
+        
+        switch   (display, bundle ) {
+        case let (display?, _     ) where display.isEmpty: return getProductName()
+        case let (display?, _     ):                       return display
+        case let (_       ,bundle?) where bundle .isEmpty: return getProductName()
+        case let (_       ,bundle?):                       return bundle
+        default:                                           return getProductName()
         }
     }
     
