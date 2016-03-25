@@ -69,25 +69,14 @@ public class BundleInformation: MirrorSubjectTypeGettable {
     
     private static func getProductName() -> String {
         let sepa = "."
-        var array = mirrorManager.mirrorSubjectType.componentsSeparatedByString(sepa)
+        let array = mirrorManager.mirrorSubjectType.componentsSeparatedByString(sepa)
         
-        if array.count >= 2 {
-            //プロジェクト名に.が入っている時を考慮
+        switch array.count {
+        case 0:  return ""
+        case 1:  return array[0]
             
-            array.removeAtIndex(array.count - 1)
-            
-            var rtn = ""
-            for str in array {
-                if rtn == "" {
-                    rtn = str
-                }else {
-                    rtn += sepa + str
-                }
-            }
-            
-            return rtn
-        }else {
-            return array.first ?? ""
+        //プロジェクト名に.が入っている時を考慮
+        default: return array.dropLast().joinWithSeparator(sepa)
         }
     }
     
