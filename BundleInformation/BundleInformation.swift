@@ -10,11 +10,15 @@ import UIKit
 
 // for manual mocking
 internal protocol ObjectForInfoDictionaryKeyGettable {
-    func objectForInfoDictionaryKey(key: String) -> AnyObject?
+    subscript(key: String) -> String? { get }
 }
 
 // for manual mocking
-extension NSBundle: ObjectForInfoDictionaryKeyGettable {}
+extension NSBundle: ObjectForInfoDictionaryKeyGettable {
+    subscript(key: String) -> String? {
+        return objectForInfoDictionaryKey(key) as? String
+    }
+}
 
 // for manual mocking
 internal protocol MirrorSubjectTypeGettable {
@@ -34,12 +38,15 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var appDisplayName: String {
-        if let name = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleDisplayName") as? String {
-            return name == "" ? getProductName() : name
-        }else if let name = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleName") as? String {
-            return name == "" ? getProductName() : name
-        }else {
-            return getProductName()
+        let display = infoDictionaryManager["CFBundleDisplayName"]
+        let bundle  = infoDictionaryManager["CFBundleName"]
+        
+        switch   (display, bundle ) {
+        case let (display?, _     ) where display.isEmpty: return getProductName()
+        case let (display?, _     ):                       return display
+        case let (_       ,bundle?) where bundle .isEmpty: return getProductName()
+        case let (_       ,bundle?):                       return bundle
+        default:                                           return getProductName()
         }
     }
     
@@ -48,7 +55,7 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var version: String {
-        guard let ver = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleShortVersionString") as? String else {
+        guard let ver = infoDictionaryManager["CFBundleShortVersionString"] else {
             return ""
         }
         
@@ -60,7 +67,7 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var build: String {
-        guard let bui = infoDictionaryManager.objectForInfoDictionaryKey("CFBundleVersion") as? String else {
+        guard let bui = infoDictionaryManager["CFBundleVersion"] else {
             return ""
         }
         

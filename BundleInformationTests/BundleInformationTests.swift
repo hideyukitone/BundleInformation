@@ -23,7 +23,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBundleDisplayNameSome() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return "BundleDisplayName"
                 default:                    return "default"
@@ -34,9 +34,24 @@ class BundleInformationTests: XCTestCase {
         XCTAssertEqual(BundleInformation.appDisplayName, "BundleDisplayName")
     }
     
-    func testBundleDisplayNameNil() {
+    func testBundleDisplayNameEmpty() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            subscript(key: String) -> String? {
+                switch key {
+                case "CFBundleDisplayName": return ""
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "XXX" }
+        }
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+    }
+    
+    func testBundleNameSome() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return "BundleName"
@@ -48,9 +63,25 @@ class BundleInformationTests: XCTestCase {
         XCTAssertEqual(BundleInformation.appDisplayName, "BundleName")
     }
     
+    func testBundleNameEmpty() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+            subscript(key: String) -> String? {
+                switch key {
+                case "CFBundleDisplayName": return nil
+                case "CFBundleName":        return ""
+                default:                    return "default"
+                }
+            }
+            var mirrorSubjectType: String { return "XXX" }
+        }
+        BundleInformation.infoDictionaryManager = CustomManager()
+        BundleInformation.mirrorManager = CustomManager()
+        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+    }
+
     func testMirrorSubjectTypeString1() {
         struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -68,7 +99,7 @@ class BundleInformationTests: XCTestCase {
     
     func testMirrorSubjectTypeString2() {
         struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -86,7 +117,7 @@ class BundleInformationTests: XCTestCase {
     
     func testMirrorSubjectTypeString3() {
         struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -104,7 +135,7 @@ class BundleInformationTests: XCTestCase {
     
     func testMirrorSubjectTypeString4() {
         struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -122,7 +153,7 @@ class BundleInformationTests: XCTestCase {
     
     func testVersionNil() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return nil
                 default:                           return "default"
@@ -135,7 +166,7 @@ class BundleInformationTests: XCTestCase {
     
     func testVersionSome() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return "1.2"
                 default:                           return "default"
@@ -148,7 +179,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBuildNil() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return nil
                 default:                return "default"
@@ -161,7 +192,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBuildSome() {
         struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            func objectForInfoDictionaryKey(key: String) -> AnyObject? {
+            subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return "2.3"
                 default:                return "default"
