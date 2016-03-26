@@ -55,11 +55,7 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var version: String {
-        guard let ver = infoDictionaryManager["CFBundleShortVersionString"] else {
-            return ""
-        }
-        
-        return ver
+        return infoDictionaryManager["CFBundleShortVersionString"] ?? ""
     }
     
     /**
@@ -67,11 +63,7 @@ public class BundleInformation: MirrorSubjectTypeGettable {
      
      */
     public static var build: String {
-        guard let bui = infoDictionaryManager["CFBundleVersion"] else {
-            return ""
-        }
-        
-        return bui
+        return infoDictionaryManager["CFBundleVersion"] ?? ""
     }
     
     private static func getProductName() -> String {
