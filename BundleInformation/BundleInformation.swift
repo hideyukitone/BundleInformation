@@ -8,28 +8,7 @@
 import Foundation
 import UIKit
 
-// for manual mocking
-internal protocol ObjectForInfoDictionaryKeyGettable {
-    subscript(key: String) -> String? { get }
-}
-
-// for manual mocking
-extension NSBundle: ObjectForInfoDictionaryKeyGettable {
-    subscript(key: String) -> String? {
-        return objectForInfoDictionaryKey(key) as? String
-    }
-}
-
-// for manual mocking
-internal protocol InfomationForApplicationDelegateGettable {
-    func classNameByDelegate(delegate: UIApplicationDelegate?) -> String?
-}
-
-public class BundleInformation: InfomationForApplicationDelegateGettable {
-    
-    // for manual mocking
-    internal static var infoDictionaryManager: ObjectForInfoDictionaryKeyGettable = NSBundle.mainBundle()
-    internal static var infoAppDelegateManager: InfomationForApplicationDelegateGettable = BundleInformation()
+public class BundleInformation {
     
     /**
      Info.plistからアプリ名を取得
@@ -40,15 +19,15 @@ public class BundleInformation: InfomationForApplicationDelegateGettable {
      ***
      */
     public static var appDisplayName: String? {
-        let display = infoDictionaryManager["CFBundleDisplayName"]
-        let bundle  = infoDictionaryManager["CFBundleName"]
+        let display = objectForInfoDictionaryKey("CFBundleDisplayName")
+        let bundle  = objectForInfoDictionaryKey("CFBundleName")
         
         switch   (display, bundle ) {
         case let (display?, _     ) where display.isEmpty: return nil //Bundle display nameがあるのに空白の場合
         case let (display?, _     ):                       return display
         case let (_       ,bundle?) where bundle .isEmpty: return nil //Bundle nameがあるのに空白の場合
         case let (_       ,bundle?):                       return bundle
-        default:                                           return nil
+        case     (_       ,_      ):                       return nil
         }
     }
     
@@ -57,7 +36,7 @@ public class BundleInformation: InfomationForApplicationDelegateGettable {
      
      */
     public static var version: String {
-        return infoDictionaryManager["CFBundleShortVersionString"] ?? ""
+        return objectForInfoDictionaryKey("CFBundleShortVersionString") ?? ""
     }
     
     /**
@@ -65,7 +44,7 @@ public class BundleInformation: InfomationForApplicationDelegateGettable {
      
      */
     public static var build: String {
-        return infoDictionaryManager["CFBundleVersion"] ?? ""
+        return objectForInfoDictionaryKey("CFBundleVersion") ?? ""
     }
     
     /**
@@ -75,7 +54,7 @@ public class BundleInformation: InfomationForApplicationDelegateGettable {
      */
     public static func moduleName(delegate delegate: UIApplicationDelegate?) -> String? {
         let sepa = "."
-        guard let array = infoAppDelegateManager.classNameByDelegate(delegate)?.componentsSeparatedByString(sepa) else {
+        guard let array = classNameByDelegate(delegate)?.componentsSeparatedByString(sepa) else {
             return nil
         }
         
@@ -88,8 +67,13 @@ public class BundleInformation: InfomationForApplicationDelegateGettable {
         }
     }
     
-    // for manual mocking
-    internal func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+    // MARK: for testing
+    
+    internal class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
         return delegate.map{NSStringFromClass($0.dynamicType)}
+    }
+    
+    internal class func objectForInfoDictionaryKey(key: String) -> String? {
+        return NSBundle.mainBundle().objectForInfoDictionaryKey(key) as? String
     }
 }

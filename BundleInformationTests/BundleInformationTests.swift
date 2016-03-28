@@ -22,34 +22,34 @@ class BundleInformationTests: XCTestCase {
     }
     
     func testBundleDisplayNameSome() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return "BundleDisplayName"
                 default:                    return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, "BundleDisplayName")
+            
+        XCTAssertEqual(CustomBundleInformation.appDisplayName, "BundleDisplayName")
     }
     
     func testBundleDisplayNameEmpty() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return ""
                 default:                    return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = CustomManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, nil)
+        
+        XCTAssertEqual(CustomBundleInformation.appDisplayName, nil)
     }
     
     func testBundleNameSome() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return "BundleName"
@@ -57,13 +57,13 @@ class BundleInformationTests: XCTestCase {
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, "BundleName")
+        
+        XCTAssertEqual(CustomBundleInformation.appDisplayName, "BundleName")
     }
     
     func testBundleNameEmpty() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return ""
@@ -71,13 +71,13 @@ class BundleInformationTests: XCTestCase {
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = CustomManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, nil)
+        
+        XCTAssertEqual(CustomBundleInformation.appDisplayName, nil)
     }
 
     func testMirrorSubjectTypeString() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -86,110 +86,107 @@ class BundleInformationTests: XCTestCase {
             }
         }
         
-        BundleInformation.infoDictionaryManager = CustomManager()
-        
-        XCTAssertEqual(BundleInformation.appDisplayName, nil)
+        XCTAssertEqual(CustomBundleInformation.appDisplayName, nil)
     }
     
     func testVersionNil() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return nil
                 default:                           return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.version, "")
+        
+        XCTAssertEqual(CustomBundleInformation.version, "")
     }
     
     func testVersionSome() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return "1.2"
                 default:                           return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.version, "1.2")
+        
+        XCTAssertEqual(CustomBundleInformation.version, "1.2")
     }
     
     func testBuildNil() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return nil
                 default:                return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.build, "")
+        
+        XCTAssertEqual(CustomBundleInformation.build, "")
     }
     
     func testBuildSome() {
-        struct ObjectManager: ObjectForInfoDictionaryKeyGettable {
-            subscript(key: String) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func objectForInfoDictionaryKey(key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return "2.3"
                 default:                return "default"
                 }
             }
         }
-        BundleInformation.infoDictionaryManager = ObjectManager()
-        XCTAssertEqual(BundleInformation.build, "2.3")
+        
+        XCTAssertEqual(CustomBundleInformation.build, "2.3")
     }
     
     func testModuleNil() {
-        struct InfoManager: InfomationForApplicationDelegateGettable {
-            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
                 return nil
             }
         }
-        BundleInformation.infoAppDelegateManager = InfoManager()
-        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), nil)
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), nil)
     }
     
     func testModuleString1() {
-        struct InfoManager: InfomationForApplicationDelegateGettable {
-            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
                 return "xxx"
             }
         }
-        BundleInformation.infoAppDelegateManager = InfoManager()
-        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+        
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
     }
     
     func testModuleString2() {
-        struct InfoManager: InfomationForApplicationDelegateGettable {
-            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
                 return "xxx.yyy"
             }
         }
-        BundleInformation.infoAppDelegateManager = InfoManager()
-        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+        
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
     }
     
     func testModuleString3() {
-        struct InfoManager: InfomationForApplicationDelegateGettable {
-            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
                 return "xxx.yyy.zzz"
             }
         }
-        BundleInformation.infoAppDelegateManager = InfoManager()
-        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx.yyy")
+        
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx.yyy")
     }
     
     func testModuleString4() {
-        struct InfoManager: InfomationForApplicationDelegateGettable {
-            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        class CustomBundleInformation: BundleInformation {
+            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
                 return ""
             }
         }
-        BundleInformation.infoAppDelegateManager = InfoManager()
-        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "")
+        
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "")
     }
 }
