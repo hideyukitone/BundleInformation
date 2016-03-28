@@ -17,7 +17,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        lblDisplay.text = "\(BundleInformation.appDisplayName)\n\(BundleInformation.version)(\(BundleInformation.build))"
+        let appName = BundleInformation.appDisplayName ?? BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate) ?? ""
+        lblDisplay.text = "\(appName)\n\(BundleInformation.version)(\(BundleInformation.build))"
     }
 
     override func didReceiveMemoryWarning() {

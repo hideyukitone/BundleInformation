@@ -340,6 +340,7 @@
 				TargetAttributes = {
 					874D9BE61CA1B68A009D2E04 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = M2CCPT32P8;
 					};
 					874D9BFA1CA1B68A009D2E04 = {
 						CreatedOnToolsVersion = 7.3;
@@ -620,11 +621,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = BundleInformationSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hideyuki.okuni.BundleInformationSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -632,11 +636,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = BundleInformationSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hideyuki.okuni.BundleInformationSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -786,6 +793,7 @@
 				874D9C111CA1B68A009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		874D9C121CA1B68A009D2E04 /* Build configuration list for PBXNativeTarget "BundleInformationSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -794,6 +802,7 @@
 				874D9C141CA1B68A009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		874D9C151CA1B68A009D2E04 /* Build configuration list for PBXNativeTarget "BundleInformationSampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -802,6 +811,7 @@
 				874D9C171CA1B68A009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		874D9C341CA1B6A3009D2E04 /* Build configuration list for PBXNativeTarget "BundleInformation" */ = {
 			isa = XCConfigurationList;
@@ -810,6 +820,7 @@
 				874D9C361CA1B6A3009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		874D9C381CA1B6A3009D2E04 /* Build configuration list for PBXNativeTarget "BundleInformationTests" */ = {
 			isa = XCConfigurationList;
@@ -818,6 +829,7 @@
 				874D9C3A1CA1B6A3009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		874D9C3E1CA1C568009D2E04 /* Build configuration list for PBXAggregateTarget "BundleInformationUniversal" */ = {
 			isa = XCConfigurationList;
@@ -826,6 +838,7 @@
 				874D9C401CA1C568009D2E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

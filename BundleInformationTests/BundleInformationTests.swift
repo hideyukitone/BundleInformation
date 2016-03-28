@@ -35,18 +35,16 @@ class BundleInformationTests: XCTestCase {
     }
     
     func testBundleDisplayNameEmpty() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
             subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return ""
                 default:                    return "default"
                 }
             }
-            var mirrorSubjectType: String { return "XXX" }
         }
         BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+        XCTAssertEqual(BundleInformation.appDisplayName, nil)
     }
     
     func testBundleNameSome() {
@@ -64,7 +62,7 @@ class BundleInformationTests: XCTestCase {
     }
     
     func testBundleNameEmpty() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
             subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
@@ -72,15 +70,13 @@ class BundleInformationTests: XCTestCase {
                 default:                    return "default"
                 }
             }
-            var mirrorSubjectType: String { return "XXX" }
         }
         BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
-        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
+        XCTAssertEqual(BundleInformation.appDisplayName, nil)
     }
 
-    func testMirrorSubjectTypeString1() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
+    func testMirrorSubjectTypeString() {
+        struct CustomManager: ObjectForInfoDictionaryKeyGettable {
             subscript(key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
@@ -88,67 +84,11 @@ class BundleInformationTests: XCTestCase {
                 default:                    return "default"
                 }
             }
-            var mirrorSubjectType: String { return "" }
         }
         
         BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
         
-        XCTAssertEqual(BundleInformation.appDisplayName, "")
-    }
-    
-    func testMirrorSubjectTypeString2() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            subscript(key: String) -> String? {
-                switch key {
-                case "CFBundleDisplayName": return nil
-                case "CFBundleName":        return nil
-                default:                    return "default"
-                }
-            }
-            var mirrorSubjectType: String { return "XXX" }
-        }
-        
-        BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
-        
-        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
-    }
-    
-    func testMirrorSubjectTypeString3() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            subscript(key: String) -> String? {
-                switch key {
-                case "CFBundleDisplayName": return nil
-                case "CFBundleName":        return nil
-                default:                    return "default"
-                }
-            }
-            var mirrorSubjectType: String { return "XXX.YYY" }
-        }
-        
-        BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
-        
-        XCTAssertEqual(BundleInformation.appDisplayName, "XXX")
-    }
-    
-    func testMirrorSubjectTypeString4() {
-        struct CustomManager: ObjectForInfoDictionaryKeyGettable, MirrorSubjectTypeGettable {
-            subscript(key: String) -> String? {
-                switch key {
-                case "CFBundleDisplayName": return nil
-                case "CFBundleName":        return nil
-                default:                    return "default"
-                }
-            }
-            var mirrorSubjectType: String { return "XXX.YYY.ZZZ" }
-        }
-        
-        BundleInformation.infoDictionaryManager = CustomManager()
-        BundleInformation.mirrorManager = CustomManager()
-        
-        XCTAssertEqual(BundleInformation.appDisplayName, "XXX.YYY")
+        XCTAssertEqual(BundleInformation.appDisplayName, nil)
     }
     
     func testVersionNil() {
@@ -201,5 +141,55 @@ class BundleInformationTests: XCTestCase {
         }
         BundleInformation.infoDictionaryManager = ObjectManager()
         XCTAssertEqual(BundleInformation.build, "2.3")
+    }
+    
+    func testModuleNil() {
+        struct InfoManager: InfomationForApplicationDelegateGettable {
+            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+                return nil
+            }
+        }
+        BundleInformation.infoAppDelegateManager = InfoManager()
+        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), nil)
+    }
+    
+    func testModuleString1() {
+        struct InfoManager: InfomationForApplicationDelegateGettable {
+            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+                return "xxx"
+            }
+        }
+        BundleInformation.infoAppDelegateManager = InfoManager()
+        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+    }
+    
+    func testModuleString2() {
+        struct InfoManager: InfomationForApplicationDelegateGettable {
+            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+                return "xxx.yyy"
+            }
+        }
+        BundleInformation.infoAppDelegateManager = InfoManager()
+        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+    }
+    
+    func testModuleString3() {
+        struct InfoManager: InfomationForApplicationDelegateGettable {
+            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+                return "xxx.yyy.zzz"
+            }
+        }
+        BundleInformation.infoAppDelegateManager = InfoManager()
+        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx.yyy")
+    }
+    
+    func testModuleString4() {
+        struct InfoManager: InfomationForApplicationDelegateGettable {
+            private func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+                return ""
+            }
+        }
+        BundleInformation.infoAppDelegateManager = InfoManager()
+        XCTAssertEqual(BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "")
     }
 }

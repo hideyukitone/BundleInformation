@@ -21,32 +21,34 @@ extension NSBundle: ObjectForInfoDictionaryKeyGettable {
 }
 
 // for manual mocking
-internal protocol MirrorSubjectTypeGettable {
-    var mirrorSubjectType: String { get }
+internal protocol InfomationForApplicationDelegateGettable {
+    func classNameByDelegate(delegate: UIApplicationDelegate?) -> String?
 }
 
-public class BundleInformation: MirrorSubjectTypeGettable {
+public class BundleInformation: InfomationForApplicationDelegateGettable {
     
     // for manual mocking
     internal static var infoDictionaryManager: ObjectForInfoDictionaryKeyGettable = NSBundle.mainBundle()
-    
-    // for manual mocking
-    internal static var mirrorManager: MirrorSubjectTypeGettable = BundleInformation()
+    internal static var infoAppDelegateManager: InfomationForApplicationDelegateGettable = BundleInformation()
     
     /**
-     アプリ名
-     
+     Info.plistからアプリ名を取得
+     ***
+     取得方法
+     - 「Bundle display name」から取得
+     - 上で取得できない場合は「Bundle name」から取得
+     ***
      */
-    public static var appDisplayName: String {
+    public static var appDisplayName: String? {
         let display = infoDictionaryManager["CFBundleDisplayName"]
         let bundle  = infoDictionaryManager["CFBundleName"]
         
         switch   (display, bundle ) {
-        case let (display?, _     ) where display.isEmpty: return getProductName()
+        case let (display?, _     ) where display.isEmpty: return nil //Bundle display nameがあるのに空白の場合
         case let (display?, _     ):                       return display
-        case let (_       ,bundle?) where bundle .isEmpty: return getProductName()
+        case let (_       ,bundle?) where bundle .isEmpty: return nil //Bundle nameがあるのに空白の場合
         case let (_       ,bundle?):                       return bundle
-        default:                                           return getProductName()
+        default:                                           return nil
         }
     }
     
@@ -66,9 +68,16 @@ public class BundleInformation: MirrorSubjectTypeGettable {
         return infoDictionaryManager["CFBundleVersion"] ?? ""
     }
     
-    private static func getProductName() -> String {
+    /**
+     モジュール名
+     - parameter UIApplicationDelegate: UIApplication.sharedApplication().delegateを渡してください。
+     
+     */
+    public static func moduleName(delegate delegate: UIApplicationDelegate?) -> String? {
         let sepa = "."
-        let array = mirrorManager.mirrorSubjectType.componentsSeparatedByString(sepa)
+        guard let array = infoAppDelegateManager.classNameByDelegate(delegate)?.componentsSeparatedByString(sepa) else {
+            return nil
+        }
         
         switch array.count {
         case 0:  return ""
@@ -80,8 +89,7 @@ public class BundleInformation: MirrorSubjectTypeGettable {
     }
     
     // for manual mocking
-    internal var mirrorSubjectType: String {
-        return String(Mirror(reflecting: self).subjectType)
+    internal func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+        return delegate.map{NSStringFromClass($0.dynamicType)}
     }
-    
 }
