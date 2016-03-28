@@ -62,7 +62,7 @@ public class BundleInformation {
         case 0:  return ""
         case 1:  return array[0]
             
-        //プロジェクト名に.が入っている時を考慮
+        //モジュール名に.が入っている時を考慮
         default: return array.dropLast().joinWithSeparator(sepa)
         }
     }
