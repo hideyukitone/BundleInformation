@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let appName = BundleInformation.appDisplayName ?? BundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate) ?? ""
+        let appName = BundleInformation.appDisplayName ?? BundleInformation.moduleName(delegate: UIApplication.shared.delegate) ?? ""
         lblDisplay.text = "\(appName)\n\(BundleInformation.version)(\(BundleInformation.build))"
     }
 

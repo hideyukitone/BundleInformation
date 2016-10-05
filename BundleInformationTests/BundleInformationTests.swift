@@ -23,7 +23,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBundleDisplayNameSome() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return "BundleDisplayName"
                 default:                    return "default"
@@ -36,7 +36,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBundleDisplayNameEmpty() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return ""
                 default:                    return "default"
@@ -49,7 +49,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBundleNameSome() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return "BundleName"
@@ -63,7 +63,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBundleNameEmpty() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return ""
@@ -77,7 +77,7 @@ class BundleInformationTests: XCTestCase {
 
     func testMirrorSubjectTypeString() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleDisplayName": return nil
                 case "CFBundleName":        return nil
@@ -91,7 +91,7 @@ class BundleInformationTests: XCTestCase {
     
     func testVersionNil() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return nil
                 default:                           return "default"
@@ -104,7 +104,7 @@ class BundleInformationTests: XCTestCase {
     
     func testVersionSome() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleShortVersionString": return "1.2"
                 default:                           return "default"
@@ -117,7 +117,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBuildNil() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return nil
                 default:                return "default"
@@ -130,7 +130,7 @@ class BundleInformationTests: XCTestCase {
     
     func testBuildSome() {
         class CustomBundleInformation: BundleInformation {
-            override class func objectForInfoDictionaryKey(key: String) -> String? {
+            override class func objectForInfoDictionaryKey(_ key: String) -> String? {
                 switch key {
                 case "CFBundleVersion": return "2.3"
                 default:                return "default"
@@ -143,50 +143,50 @@ class BundleInformationTests: XCTestCase {
     
     func testModuleNil() {
         class CustomBundleInformation: BundleInformation {
-            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+            override class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
                 return nil
             }
         }
-        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), nil)
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.shared.delegate), nil)
     }
     
     func testModuleString1() {
         class CustomBundleInformation: BundleInformation {
-            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+            override class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
                 return "xxx"
             }
         }
         
-        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.shared.delegate), "xxx")
     }
     
     func testModuleString2() {
         class CustomBundleInformation: BundleInformation {
-            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+            override class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
                 return "xxx.yyy"
             }
         }
         
-        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx")
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.shared.delegate), "xxx")
     }
     
     func testModuleString3() {
         class CustomBundleInformation: BundleInformation {
-            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+            override class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
                 return "xxx.yyy.zzz"
             }
         }
         
-        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "xxx.yyy")
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.shared.delegate), "xxx.yyy")
     }
     
     func testModuleString4() {
         class CustomBundleInformation: BundleInformation {
-            override class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
+            override class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
                 return ""
             }
         }
         
-        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.sharedApplication().delegate), "")
+        XCTAssertEqual(CustomBundleInformation.moduleName(delegate: UIApplication.shared.delegate), "")
     }
 }

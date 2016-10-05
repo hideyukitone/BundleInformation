@@ -52,9 +52,9 @@ public class BundleInformation {
      - parameter UIApplicationDelegate: UIApplication.sharedApplication().delegateを渡してください。
      
      */
-    public static func moduleName(delegate delegate: UIApplicationDelegate?) -> String? {
+    public static func moduleName(delegate: UIApplicationDelegate?) -> String? {
         let sepa = "."
-        guard let array = classNameByDelegate(delegate)?.componentsSeparatedByString(sepa) else {
+        guard let array = classNameByDelegate(delegate)?.components(separatedBy: sepa) else {
             return nil
         }
         
@@ -63,17 +63,17 @@ public class BundleInformation {
         case 1:  return array[0]
             
         //モジュール名に.が入っている時を考慮
-        default: return array.dropLast().joinWithSeparator(sepa)
+        default: return array.dropLast().joined(separator: sepa)
         }
     }
     
     // MARK: for testing
     
-    internal class func classNameByDelegate(delegate: UIApplicationDelegate?) -> String? {
-        return delegate.map{NSStringFromClass($0.dynamicType)}
+    internal class func classNameByDelegate(_ delegate: UIApplicationDelegate?) -> String? {
+        return delegate.map{NSStringFromClass(type(of: $0))}
     }
     
-    internal class func objectForInfoDictionaryKey(key: String) -> String? {
-        return NSBundle.mainBundle().objectForInfoDictionaryKey(key) as? String
+    internal class func objectForInfoDictionaryKey(_ key: String) -> String? {
+        return Bundle.main.object(forInfoDictionaryKey: key) as? String
     }
 }
