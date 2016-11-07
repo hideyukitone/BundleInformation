@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public class BundleInformation {
+open class BundleInformation {
     
     /**
      Info.plistからアプリ名を取得
@@ -18,7 +18,7 @@ public class BundleInformation {
      - 上で取得できない場合は「Bundle name」から取得
      ***
      */
-    public static var appDisplayName: String? {
+    open static var appDisplayName: String? {
         let display = objectForInfoDictionaryKey("CFBundleDisplayName")
         let bundle  = objectForInfoDictionaryKey("CFBundleName")
         
@@ -35,7 +35,7 @@ public class BundleInformation {
      バージョン ex)1.0
      
      */
-    public static var version: String {
+    open static var version: String {
         return objectForInfoDictionaryKey("CFBundleShortVersionString") ?? ""
     }
     
@@ -43,7 +43,7 @@ public class BundleInformation {
      ビルド ex)1
      
      */
-    public static var build: String {
+    open static var build: String {
         return objectForInfoDictionaryKey("CFBundleVersion") ?? ""
     }
     
@@ -52,7 +52,7 @@ public class BundleInformation {
      - parameter UIApplicationDelegate: UIApplication.sharedApplication().delegateを渡してください。
      
      */
-    public static func moduleName(delegate: UIApplicationDelegate?) -> String? {
+    open static func moduleName(delegate: UIApplicationDelegate?) -> String? {
         let sepa = "."
         guard let array = classNameByDelegate(delegate)?.components(separatedBy: sepa) else {
             return nil
